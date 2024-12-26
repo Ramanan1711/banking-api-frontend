@@ -20,6 +20,17 @@ module.exports = {
         test: /\.css$/, // Load CSS files
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(webp|png|jpg|jpeg|gif)$/i, // Add this rule to handle image files
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]', // Preserve file name and path
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {
