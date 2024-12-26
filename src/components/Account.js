@@ -6,6 +6,7 @@ function Account() {
   const [accountDetails, setAccountDetails] = useState(null);
   const [newAccount, setNewAccount] = useState({ accountHolderName: '', balance: '' });
   const [updateAccount, setUpdateAccount] = useState({ id: '', accountHolderName: '', balance: '' });
+  const [transferDetails, setTransferDetails] = useState({ fromAccountId: '', toAccountId: '', amount: '' });
   const [accountId, setAccountId] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -94,6 +95,24 @@ function Account() {
       fetchAllAccounts();
     } catch (err) {
       setError('Error deleting account: ' + err.message);
+    }
+  };
+
+  // 6. Transfer between accounts
+  const transferAmount = async () => {
+    resetMessages();
+    const { fromAccountId, toAccountId, amount } = transferDetails;
+    if (!fromAccountId || !toAccountId || !amount) {
+      setError('Please provide From Account ID, To Account ID, and Amount.');
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:8080/accounts/transfer', transferDetails);
+      setMessage(response.data);
+      setTransferDetails({ fromAccountId: '', toAccountId: '', amount: '' });
+      fetchAllAccounts();
+    } catch (err) {
+      setError('Error transferring amount: ' + err.message);
     }
   };
 
@@ -189,6 +208,30 @@ function Account() {
           onChange={(e) => setAccountId(e.target.value)}
         />
         <button onClick={deleteAccountById}>Delete Account</button>
+      </div>
+
+      {/* Transfer Amount */}
+      <div>
+        <h4>Transfer Amount</h4>
+        <input
+          type="number"
+          placeholder="From Account ID"
+          value={transferDetails.fromAccountId}
+          onChange={(e) => setTransferDetails({ ...transferDetails, fromAccountId: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="To Account ID"
+          value={transferDetails.toAccountId}
+          onChange={(e) => setTransferDetails({ ...transferDetails, toAccountId: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Amount"
+          value={transferDetails.amount}
+          onChange={(e) => setTransferDetails({ ...transferDetails, amount: e.target.value })}
+        />
+        <button onClick={transferAmount}>Transfer</button>
       </div>
     </div>
   );
