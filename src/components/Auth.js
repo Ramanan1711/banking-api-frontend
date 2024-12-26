@@ -70,61 +70,63 @@ function Auth() {
   };
 
   return (
-    <div>
-      <h3>Authentication</h3>
+    <div style={styles.container}>
+      <h3 style={styles.heading}>Authentication</h3>
 
       {/* Display messages */}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {message && <p style={{ color: 'green' }}>{message}</p>}
+      {error && <p style={styles.errorMessage}>{error}</p>}
+      {message && <p style={styles.successMessage}>{message}</p>}
 
-      {/* Register user */}
-      <div>
+      <div style={styles.card}>
         <h4>Register</h4>
         <input
           type="text"
           placeholder="Username"
           value={registerData.username}
           onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
+          style={styles.input}
         />
         <input
           type="password"
           placeholder="Password"
           value={registerData.password}
           onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+          style={styles.input}
         />
         <input
           type="text"
           placeholder="Role"
           value={registerData.role}
           onChange={(e) => setRegisterData({ ...registerData, role: e.target.value })}
+          style={styles.input}
         />
-        <button onClick={registerUser}>Register</button>
+        <button onClick={registerUser} style={styles.button}>Register</button>
       </div>
 
-      {/* Log in user */}
-      <div>
+      <div style={styles.card}>
         <h4>Login</h4>
         <input
           type="text"
           placeholder="Username"
           value={loginData.username}
           onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+          style={styles.input}
         />
         <input
           type="password"
           placeholder="Password"
           value={loginData.password}
           onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+          style={styles.input}
         />
-        <button onClick={loginUser}>Login</button>
+        <button onClick={loginUser} style={styles.button}>Login</button>
       </div>
 
-      {/* Fetch profile */}
-      <div>
+      <div style={styles.card}>
         <h4>Fetch Profile</h4>
-        <button onClick={fetchUserProfile}>Fetch Profile</button>
+        <button onClick={fetchUserProfile} style={styles.button}>Fetch Profile</button>
         {profile && (
-          <div>
+          <div style={styles.profile}>
             <p>Username: {profile.username}</p>
             <p>Role: {profile.role}</p>
           </div>
@@ -133,5 +135,68 @@ function Auth() {
     </div>
   );
 }
+
+const styles = {
+  container: {
+    padding: '20px',
+    maxWidth: '800px',
+    margin: '0 auto',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  },
+  heading: {
+    textAlign: 'center',
+    fontSize: '24px',
+    color: '#333',
+    marginBottom: '30px',
+  },
+  card: {
+    backgroundColor: '#fff',
+    padding: '20px',
+    marginBottom: '20px',
+    borderRadius: '8px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    margin: '10px 0',
+    borderRadius: '4px',
+    border: '1px solid #ddd',
+    fontSize: '14px',
+  },
+  button: {
+    width: '100%',
+    padding: '10px',
+    backgroundColor: '#4CAF50',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
+  },
+  buttonHover: {
+    backgroundColor: '#45a049',
+  },
+  errorMessage: {
+    color: 'red',
+    textAlign: 'center',
+    fontSize: '16px',
+  },
+  successMessage: {
+    color: 'green',
+    textAlign: 'center',
+    fontSize: '16px',
+  },
+  profile: {
+    marginTop: '10px',
+    padding: '10px',
+    backgroundColor: '#e0f7fa',
+    borderRadius: '4px',
+    fontSize: '16px',
+  },
+};
 
 export default Auth;
