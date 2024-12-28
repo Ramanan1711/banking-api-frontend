@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button, TextField, Typography, Container, Card, Box, Grid } from '@mui/material';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Auth() {
   const [registerData, setRegisterData] = useState({ username: '', password: '', role: '' });
@@ -70,133 +72,95 @@ function Auth() {
   };
 
   return (
-    <div style={styles.container}>
-      <h3 style={styles.heading}>Authentication</h3>
+    <Container className="py-8">
+      <Typography variant="h4" gutterBottom align="center">Authentication</Typography>
 
       {/* Display messages */}
-      {error && <p style={styles.errorMessage}>{error}</p>}
-      {message && <p style={styles.successMessage}>{message}</p>}
+      {error && <Typography color="error" align="center" variant="body1">{error}</Typography>}
+      {message && <Typography color="primary" align="center" variant="body1">{message}</Typography>}
 
-      <div style={styles.card}>
-        <h4>Register</h4>
-        <input
-          type="text"
-          placeholder="Username"
-          value={registerData.username}
-          onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
-          style={styles.input}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={registerData.password}
-          onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
-          style={styles.input}
-        />
-        <input
-          type="text"
-          placeholder="Role"
-          value={registerData.role}
-          onChange={(e) => setRegisterData({ ...registerData, role: e.target.value })}
-          style={styles.input}
-        />
-        <button onClick={registerUser} style={styles.button}>Register</button>
-      </div>
+      {/* Grid Layout for Forms */}
+      <Grid container spacing={4} justifyContent="center">
+        {/* Register Form */}
+        <Grid item xs={12} sm={6} md={4}>
+          <Card className="p-4 shadow-lg">
+            <Typography variant="h5" gutterBottom align="center">Register</Typography>
+            <TextField
+              label="Username"
+              variant="outlined"
+              fullWidth
+              value={registerData.username}
+              onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
+              className="mb-3"
+            />
+            <TextField
+              label="Password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              value={registerData.password}
+              onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+              className="mb-3"
+            />
+            <TextField
+              label="Role"
+              variant="outlined"
+              fullWidth
+              value={registerData.role}
+              onChange={(e) => setRegisterData({ ...registerData, role: e.target.value })}
+              className="mb-3"
+            />
+            <Button variant="contained" color="primary" fullWidth onClick={registerUser}>
+              Register
+            </Button>
+          </Card>
+        </Grid>
 
-      <div style={styles.card}>
-        <h4>Login</h4>
-        <input
-          type="text"
-          placeholder="Username"
-          value={loginData.username}
-          onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
-          style={styles.input}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={loginData.password}
-          onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-          style={styles.input}
-        />
-        <button onClick={loginUser} style={styles.button}>Login</button>
-      </div>
+        {/* Login Form */}
+        <Grid item xs={12} sm={6} md={4}>
+          <Card className="p-4 shadow-lg">
+            <Typography variant="h5" gutterBottom align="center">Login</Typography>
+            <TextField
+              label="Username"
+              variant="outlined"
+              fullWidth
+              value={loginData.username}
+              onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+              className="mb-3"
+            />
+            <TextField
+              label="Password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              value={loginData.password}
+              onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+              className="mb-3"
+            />
+            <Button variant="contained" color="primary" fullWidth onClick={loginUser}>
+              Login
+            </Button>
+          </Card>
+        </Grid>
 
-      <div style={styles.card}>
-        <h4>Fetch Profile</h4>
-        <button onClick={fetchUserProfile} style={styles.button}>Fetch Profile</button>
-        {profile && (
-          <div style={styles.profile}>
-            <p>Username: {profile.username}</p>
-            <p>Role: {profile.role}</p>
-          </div>
-        )}
-      </div>
-    </div>
+        {/* Fetch Profile */}
+        <Grid item xs={12} sm={6} md={4}>
+          <Card className="p-4 shadow-lg">
+            <Typography variant="h5" gutterBottom align="center">Fetch Profile</Typography>
+            <Button variant="contained" color="secondary" fullWidth onClick={fetchUserProfile}>
+              Fetch Profile
+            </Button>
+            {profile && (
+              <Box className="mt-3">
+                <Typography variant="body1">Username: {profile.username}</Typography>
+                <Typography variant="body1">Role: {profile.role}</Typography>
+              </Box>
+            )}
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
-
-const styles = {
-  container: {
-    padding: '20px',
-    maxWidth: '800px',
-    margin: '0 auto',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  },
-  heading: {
-    textAlign: 'center',
-    fontSize: '24px',
-    color: '#333',
-    marginBottom: '30px',
-  },
-  card: {
-    backgroundColor: '#fff',
-    padding: '20px',
-    marginBottom: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-  },
-  input: {
-    width: '100%',
-    padding: '10px',
-    margin: '10px 0',
-    borderRadius: '4px',
-    border: '1px solid #ddd',
-    fontSize: '14px',
-  },
-  button: {
-    width: '100%',
-    padding: '10px',
-    backgroundColor: '#4CAF50',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-  },
-  buttonHover: {
-    backgroundColor: '#45a049',
-  },
-  errorMessage: {
-    color: 'red',
-    textAlign: 'center',
-    fontSize: '16px',
-  },
-  successMessage: {
-    color: 'green',
-    textAlign: 'center',
-    fontSize: '16px',
-  },
-  profile: {
-    marginTop: '10px',
-    padding: '10px',
-    backgroundColor: '#e0f7fa',
-    borderRadius: '4px',
-    fontSize: '16px',
-  },
-};
 
 export default Auth;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Container, Grid, Paper, TextField, Button, Select, MenuItem, InputLabel, FormControl, Typography, Alert } from '@mui/material';
 
 function DepositWithdraw() {
   const [accountId, setAccountId] = useState('');
@@ -61,40 +62,74 @@ function DepositWithdraw() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Account ID:</label>
-          <input
-            type="number"
-            value={accountId}
-            onChange={(e) => setAccountId(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Amount:</label>
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Transaction Type:</label>
-          <select
-            value={transactionType}
-            onChange={(e) => setTransactionType(e.target.value)}
-          >
-            <option value="credit">Deposit</option>
-            <option value="debit">Withdraw</option>
-          </select>
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
+    <Container maxWidth="sm" sx={{ padding: 3 }}>
+      <Typography variant="h4" gutterBottom align="center">Deposit / Withdraw</Typography>
+
+      <Paper elevation={3} sx={{ padding: 3 }}>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                label="Account ID"
+                type="number"
+                fullWidth
+                value={accountId}
+                onChange={(e) => setAccountId(e.target.value)}
+                required
+                variant="outlined"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                label="Amount"
+                type="number"
+                fullWidth
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+                variant="outlined"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel>Transaction Type</InputLabel>
+                <Select
+                  value={transactionType}
+                  onChange={(e) => setTransactionType(e.target.value)}
+                  label="Transaction Type"
+                >
+                  <MenuItem value="credit">Deposit</MenuItem>
+                  <MenuItem value="debit">Withdraw</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+
+        {message && (
+          <div className="mt-4">
+            {message.includes("Error") ? (
+              <Alert severity="error">{message}</Alert>
+            ) : (
+              <Alert severity="success">{message}</Alert>
+            )}
+          </div>
+        )}
+      </Paper>
+    </Container>
   );
 }
 

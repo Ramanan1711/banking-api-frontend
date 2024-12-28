@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button, TextField, Typography, Container, Grid, Box, Paper } from '@mui/material'; // Material-UI
+import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap
 
 function Account() {
   const [accounts, setAccounts] = useState([]);
@@ -11,13 +13,12 @@ function Account() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  // Helper function to reset messages
   const resetMessages = () => {
     setMessage('');
     setError('');
   };
 
-  // 1. Fetch all accounts
+  // Fetch accounts
   const fetchAllAccounts = async () => {
     resetMessages();
     try {
@@ -29,7 +30,7 @@ function Account() {
     }
   };
 
-  // 2. Fetch account by ID
+  // Fetch account by ID
   const fetchAccountById = async () => {
     resetMessages();
     if (!accountId) {
@@ -45,7 +46,7 @@ function Account() {
     }
   };
 
-  // 3. Create a new account
+  // Create a new account
   const createAccount = async () => {
     resetMessages();
     const { accountHolderName, balance } = newAccount;
@@ -63,7 +64,7 @@ function Account() {
     }
   };
 
-  // 4. Update an account
+  // Update an account
   const updateExistingAccount = async () => {
     resetMessages();
     const { id, accountHolderName, balance } = updateAccount;
@@ -81,7 +82,7 @@ function Account() {
     }
   };
 
-  // 5. Delete an account
+  // Delete an account
   const deleteAccountById = async () => {
     resetMessages();
     if (!accountId) {
@@ -98,7 +99,7 @@ function Account() {
     }
   };
 
-  // 6. Transfer between accounts
+  // Transfer Amount
   const transferAmount = async () => {
     resetMessages();
     const { fromAccountId, toAccountId, amount } = transferDetails;
@@ -117,123 +118,187 @@ function Account() {
   };
 
   return (
-    <div>
-      <h3>Account Management</h3>
+    <Container maxWidth="lg">
+      <Typography variant="h3" align="center" gutterBottom>
+        Account Management
+      </Typography>
 
       {/* Display messages */}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {message && <p style={{ color: 'green' }}>{message}</p>}
+      {error && <Typography color="error" align="center">{error}</Typography>}
+      {message && <Typography color="primary" align="center">{message}</Typography>}
 
-      {/* Fetch all accounts */}
-      <div>
-        <h4>All Accounts</h4>
-        <button onClick={fetchAllAccounts}>Fetch All Accounts</button>
-        <ul>
-          {accounts.map(account => (
-            <li key={account.id}>
-              ID: {account.id}, Name: {account.accountHolderName}, Balance: {account.balance}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <Grid container spacing={4} mt={3}>
 
-      {/* Fetch account by ID */}
-      <div>
-        <h4>Get Account By ID</h4>
-        <input
-          type="number"
-          placeholder="Enter Account ID"
-          value={accountId}
-          onChange={(e) => setAccountId(e.target.value)}
-        />
-        <button onClick={fetchAccountById}>Fetch Account</button>
-        {accountDetails && (
-          <div>
-            <p>ID: {accountDetails.id}</p>
-            <p>Name: {accountDetails.accountHolderName}</p>
-            <p>Balance: {accountDetails.balance}</p>
-          </div>
-        )}
-      </div>
+        {/* All Accounts Section */}
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} padding={3}>
+            <Typography variant="h5" gutterBottom>
+              All Accounts
+            </Typography>
+            <Button variant="contained" color="primary" onClick={fetchAllAccounts} fullWidth>
+              Fetch All Accounts
+            </Button>
+            <Grid container spacing={2} mt={2}>
+              {accounts.map(account => (
+                <Grid item xs={12} sm={6} md={4} key={account.id}>
+                  <Paper elevation={2} padding={2} className="p-3 shadow-sm">
+                    <Typography variant="h6">ID: {account.id}</Typography>
+                    <Typography variant="body1">Name: {account.accountHolderName}</Typography>
+                    <Typography variant="body2">Balance: {account.balance}</Typography>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+        </Grid>
 
-      {/* Create a new account */}
-      <div>
-        <h4>Create Account</h4>
-        <input
-          type="text"
-          placeholder="Enter Name"
-          value={newAccount.accountHolderName}
-          onChange={(e) => setNewAccount({ ...newAccount, accountHolderName: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Enter Balance"
-          value={newAccount.balance}
-          onChange={(e) => setNewAccount({ ...newAccount, balance: e.target.value })}
-        />
-        <button onClick={createAccount}>Create Account</button>
-      </div>
+        {/* Account by ID Section */}
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} padding={3}>
+            <Typography variant="h5" gutterBottom>
+              Get Account By ID
+            </Typography>
+            <TextField
+              label="Account ID"
+              type="number"
+              fullWidth
+              value={accountId}
+              onChange={(e) => setAccountId(e.target.value)}
+              margin="normal"
+            />
+            <Button variant="contained" color="secondary" onClick={fetchAccountById} fullWidth>
+              Fetch Account
+            </Button>
+            {accountDetails && (
+              <Box mt={2}>
+                <Typography variant="body1">ID: {accountDetails.id}</Typography>
+                <Typography variant="body1">Name: {accountDetails.accountHolderName}</Typography>
+                <Typography variant="body1">Balance: {accountDetails.balance}</Typography>
+              </Box>
+            )}
+          </Paper>
+        </Grid>
 
-      {/* Update an account */}
-      <div>
-        <h4>Update Account</h4>
-        <input
-          type="number"
-          placeholder="Enter Account ID"
-          value={updateAccount.id}
-          onChange={(e) => setUpdateAccount({ ...updateAccount, id: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Enter Name"
-          value={updateAccount.accountHolderName}
-          onChange={(e) => setUpdateAccount({ ...updateAccount, accountHolderName: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Enter Balance"
-          value={updateAccount.balance}
-          onChange={(e) => setUpdateAccount({ ...updateAccount, balance: e.target.value })}
-        />
-        <button onClick={updateExistingAccount}>Update Account</button>
-      </div>
+        {/* Create Account Section */}
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} padding={3}>
+            <Typography variant="h5" gutterBottom>
+              Create Account
+            </Typography>
+            <TextField
+              label="Account Holder Name"
+              fullWidth
+              value={newAccount.accountHolderName}
+              onChange={(e) => setNewAccount({ ...newAccount, accountHolderName: e.target.value })}
+              margin="normal"
+            />
+            <TextField
+              label="Balance"
+              type="number"
+              fullWidth
+              value={newAccount.balance}
+              onChange={(e) => setNewAccount({ ...newAccount, balance: e.target.value })}
+              margin="normal"
+            />
+            <Button variant="contained" color="primary" onClick={createAccount} fullWidth>
+              Create Account
+            </Button>
+          </Paper>
+        </Grid>
 
-      {/* Delete an account */}
-      <div>
-        <h4>Delete Account</h4>
-        <input
-          type="number"
-          placeholder="Enter Account ID"
-          value={accountId}
-          onChange={(e) => setAccountId(e.target.value)}
-        />
-        <button onClick={deleteAccountById}>Delete Account</button>
-      </div>
+        {/* Update Account Section */}
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} padding={3}>
+            <Typography variant="h5" gutterBottom>
+              Update Account
+            </Typography>
+            <TextField
+              label="Account ID"
+              type="number"
+              fullWidth
+              value={updateAccount.id}
+              onChange={(e) => setUpdateAccount({ ...updateAccount, id: e.target.value })}
+              margin="normal"
+            />
+            <TextField
+              label="Account Holder Name"
+              fullWidth
+              value={updateAccount.accountHolderName}
+              onChange={(e) => setUpdateAccount({ ...updateAccount, accountHolderName: e.target.value })}
+              margin="normal"
+            />
+            <TextField
+              label="Balance"
+              type="number"
+              fullWidth
+              value={updateAccount.balance}
+              onChange={(e) => setUpdateAccount({ ...updateAccount, balance: e.target.value })}
+              margin="normal"
+            />
+            <Button variant="contained" color="primary" onClick={updateExistingAccount} fullWidth>
+              Update Account
+            </Button>
+          </Paper>
+        </Grid>
 
-      {/* Transfer Amount */}
-      <div>
-        <h4>Transfer Amount</h4>
-        <input
-          type="number"
-          placeholder="From Account ID"
-          value={transferDetails.fromAccountId}
-          onChange={(e) => setTransferDetails({ ...transferDetails, fromAccountId: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="To Account ID"
-          value={transferDetails.toAccountId}
-          onChange={(e) => setTransferDetails({ ...transferDetails, toAccountId: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Amount"
-          value={transferDetails.amount}
-          onChange={(e) => setTransferDetails({ ...transferDetails, amount: e.target.value })}
-        />
-        <button onClick={transferAmount}>Transfer</button>
-      </div>
-    </div>
+        {/* Delete Account Section */}
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} padding={3}>
+            <Typography variant="h5" gutterBottom>
+              Delete Account
+            </Typography>
+            <TextField
+              label="Account ID"
+              type="number"
+              fullWidth
+              value={accountId}
+              onChange={(e) => setAccountId(e.target.value)}
+              margin="normal"
+            />
+            <Button variant="contained" color="error" onClick={deleteAccountById} fullWidth>
+              Delete Account
+            </Button>
+          </Paper>
+        </Grid>
+
+        {/* Transfer Amount Section */}
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} padding={3}>
+            <Typography variant="h5" gutterBottom>
+              Transfer Amount
+            </Typography>
+            <TextField
+              label="From Account ID"
+              type="number"
+              fullWidth
+              value={transferDetails.fromAccountId}
+              onChange={(e) => setTransferDetails({ ...transferDetails, fromAccountId: e.target.value })}
+              margin="normal"
+            />
+            <TextField
+              label="To Account ID"
+              type="number"
+              fullWidth
+              value={transferDetails.toAccountId}
+              onChange={(e) => setTransferDetails({ ...transferDetails, toAccountId: e.target.value })}
+              margin="normal"
+            />
+            <TextField
+              label="Amount"
+              type="number"
+              fullWidth
+              value={transferDetails.amount}
+              onChange={(e) => setTransferDetails({ ...transferDetails, amount: e.target.value })}
+              margin="normal"
+            />
+            <Button variant="contained" color="secondary" onClick={transferAmount} fullWidth>
+              Transfer Amount
+            </Button>
+          </Paper>
+        </Grid>
+
+      </Grid>
+    </Container>
   );
 }
 

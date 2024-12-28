@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
+import { Container, Paper, Typography, Grid, Alert, Box } from '@mui/material';
 
 const TransactionChart = () => {
   const [data, setData] = useState([]);
@@ -47,24 +48,31 @@ const TransactionChart = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Monthly Transaction Chart</h2>
-      {error ? (
-        <div style={{ color: 'red', marginBottom: '20px' }}>{error}</div>
-      ) : (
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="CREDIT" fill="#4CAF50" name="Credit" />
-            <Bar dataKey="DEBIT" fill="#F44336" name="Debit" />
-          </BarChart>
-        </ResponsiveContainer>
-      )}
-    </div>
+    <Container maxWidth="lg" sx={{ padding: 3 }}>
+      <Paper elevation={3} sx={{ padding: 3 }}>
+        <Typography variant="h4" gutterBottom align="center">Monthly Transaction Chart</Typography>
+
+        {error ? (
+          <Alert severity="error" sx={{ marginBottom: 2 }}>
+            {error}
+          </Alert>
+        ) : (
+          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 3 }}>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="CREDIT" fill="#4CAF50" name="Credit" />
+                <Bar dataKey="DEBIT" fill="#F44336" name="Debit" />
+              </BarChart>
+            </ResponsiveContainer>
+          </Box>
+        )}
+      </Paper>
+    </Container>
   );
 };
 
