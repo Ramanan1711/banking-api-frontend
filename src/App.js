@@ -1,22 +1,18 @@
-// App.jsx
-
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Account from './components/Account';
 import Transactions from './components/Transactions';
-import DepositWithdraw from './components/DepositWithdraw'; // Import DepositWithdraw component
-import Auth from './components/Auth'; // Import Auth component
-import Navbar from './components/Navbar'; // Import Navbar component
+import DepositWithdraw from './components/DepositWithdraw';
+import Auth from './components/Auth';
+import Navbar from './components/Navbar';
+import TransactionChart from './components/TransactionChart'; // Import TransactionChart component
 
 function App() {
   return (
     <Router>
       <div>
-        {/* Use Navbar component */}
         <Navbar />
-
-        {/* Main Content Area */}
         <div style={styles.mainContent}>
           <Routes>
             <Route path="/" element={<h1>Welcome to the Banking Application</h1>} />
@@ -24,6 +20,7 @@ function App() {
             <Route path="/accounts" element={<Account />} />
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/deposit-withdraw" element={<DepositWithdraw />} />
+            <Route path="/transactions/chart" element={<TransactionChart />} /> {/* Add chart route */}
           </Routes>
         </div>
       </div>

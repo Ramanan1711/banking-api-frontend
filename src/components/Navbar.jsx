@@ -28,6 +28,9 @@ const Navbar = () => {
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
           <Link to="/deposit-withdraw" style={styles.navLink}>Deposit/Withdraw</Link>
         </motion.div>
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+          <Link to="/transactions/chart" style={styles.navLink}>Transaction Chart</Link>
+        </motion.div>
       </div>
     </nav>
   );
