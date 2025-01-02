@@ -6,9 +6,10 @@ import Transactions from './components/Transactions';
 import DepositWithdraw from './components/DepositWithdraw';
 import Auth from './components/Auth';
 import Navbar from './components/Navbar';
-import TransactionChart from './components/TransactionChart'; // Import TransactionChart component
+import TransactionChart from './components/TransactionChart';
+import Dashboard from './components/Dashboard'; // Import Dashboard component
+import TotalAccounts from './components/TotalAccounts';
 
-// Import Material-UI components
 import { Container, Typography, Box, Paper } from '@mui/material';
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/deposit-withdraw" element={<DepositWithdraw />} />
                 <Route path="/transactions/chart" element={<TransactionChart />} />
+                <Route path="/dashboard" element={<Dashboard />} /> {/* Add Dashboard route */}
+                <Route path="/totalaccounts" element={<TotalAccounts />} />
               </Routes>
             </Paper>
           </Box>
