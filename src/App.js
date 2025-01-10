@@ -9,8 +9,14 @@ import Navbar from './components/Navbar';
 import TransactionChart from './components/TransactionChart';
 import Dashboard from './components/Dashboard'; // Import Dashboard component
 import TotalAccounts from './components/TotalAccounts';
+import PaymentForm from './components/PaymentForm';
+import { Elements } from '@stripe/react-stripe-js'; // Import Elements
+import { loadStripe } from '@stripe/stripe-js'; // Import loadStripe
 
 import { Container, Typography, Box, Paper } from '@mui/material';
+
+// Initialize Stripe with your publishable key
+const stripePromise = loadStripe('pk_test_51NX1EUSF1xBrB4nWgV6TOnSz5qlNdNgENlb1T6eMks22szA4hBNpLDKrTt12bFr4GxGu7ygJlTLuF8kAzO0PIN8j00TrEJj6jw');
 
 function App() {
   return (
@@ -41,6 +47,14 @@ function App() {
                 <Route path="/transactions/chart" element={<TransactionChart />} />
                 <Route path="/dashboard" element={<Dashboard />} /> {/* Add Dashboard route */}
                 <Route path="/totalaccounts" element={<TotalAccounts />} />
+                <Route
+                  path="/payment"
+                  element={
+                    <Elements stripe={stripePromise}>
+                      <PaymentForm />
+                    </Elements>
+                  }
+                /> {/* Wrap PaymentForm with Elements */}
               </Routes>
             </Paper>
           </Box>

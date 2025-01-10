@@ -34,6 +34,9 @@ const Navbar = () => {
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
           <Link to="/dashboard" style={styles.navLink}>Dashboard</Link> {/* Add Dashboard link */}
         </motion.div>
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+          <Link to="/payment" style={styles.navLink}>Payment</Link> {/* Add Payment link */}
+        </motion.div>
       </div>
     </nav>
   );
